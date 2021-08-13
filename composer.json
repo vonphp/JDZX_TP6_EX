@@ -7,5 +7,6 @@
             "email": "vonly1024@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "license": "MIT"
 }
