@@ -1,0 +1,11 @@
+{
+    "name": "jdzx/a",
+    "description": "胶东在线专用",
+    "authors": [
+        {
+            "name": "fengliyuan",
+            "email": "vonly1024@gmail.com"
+        }
+    ],
+    "require": {}
+}
