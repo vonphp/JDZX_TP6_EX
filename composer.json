@@ -7,6 +7,13 @@
             "email": "vonly1024@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=7.2 || ^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jredis\\": "src/"
+        }
+    },
     "license": "MIT"
 }
