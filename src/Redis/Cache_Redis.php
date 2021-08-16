@@ -1,12 +1,12 @@
 <?php
 
-namespace app\common\service\Redis;
+namespace A\Redis;
 
 
 /**
  * Redis 实现抽象类
  * */
-abstract class Cache_RedisCache
+abstract class Cache_Redis
 {
     protected $_expire;
 
@@ -15,16 +15,16 @@ abstract class Cache_RedisCache
 
     protected static $_cache_pool;
     protected $_redis;
-
+    protected $config = [
+        'scheme'   => '',
+        'host'     => '',
+        'port'     => '',
+        'auth'     => '',
+        'database' => '',
+    ];
 
     public function __construct()
     {
-        $this->_err_info = '';
-        $this->_err_code = 1; //SUCCESS 1
-        $this->_expire   = -1;
-
-        //打开Redis连接
-        $this->_openCacheConn();
     }
 
     /**
@@ -41,13 +41,13 @@ abstract class Cache_RedisCache
     {
         if (empty(self::$_cache_pool)) {
             self::$_cache_pool = (new \Predis\Client([
-                'scheme' => env('redis.scheme', ''),
-                'host'   => env('redis.host', ''),
-                'port'   => env('redis.port', ''),
+                'scheme' => $this->config['scheme'],
+                'host'   => $this->config['host'],
+                'port'   => $this->config['port'],
             ]));;
         }
-        self::$_cache_pool->auth(env('redis.auth', ''));
-        self::$_cache_pool->select(intval(12));
+        self::$_cache_pool->auth($this->config['auth']);
+        self::$_cache_pool->select(intval($this->config['database']));
 
         $this->_redis = self::$_cache_pool;
     }
@@ -56,8 +56,7 @@ abstract class Cache_RedisCache
     public function get($cache_key)
     {
         if ($this->_redis->exists($cache_key)) {
-            $this->cache_value = $this->_redis->get($cache_key);
-            return $this->cache_value;
+            return $this->_redis->get($cache_key);
         } else {
             return false;
         }

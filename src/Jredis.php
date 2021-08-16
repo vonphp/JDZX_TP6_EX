@@ -2,10 +2,19 @@
 
 namespace A;
 
-class Jredis
+use A\Redis\Cache_Redis;
+
+class Jredis extends Cache_Redis
 {
-    public function asd()
+    public function __construct()
     {
-        var_dump(123123);
+        $this->config    = config('jredis', []);
+        $this->_err_info = '';
+        $this->_err_code = 1; //SUCCESS 1
+        $this->_expire   = -1;
+
+
+        //打开Redis连接
+        $this->_openCacheConn();
     }
 }
