@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "A\\": "src/"
+            "A\\": "src"
         }
     },
     "license": "MIT"
