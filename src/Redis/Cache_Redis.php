@@ -2,19 +2,22 @@
 
 namespace A\Redis;
 
+use Predis\Client;
 
 /**
- * Redis 实现抽象类
- * */
+ * redis 加锁 --单Redis实例实现分布式锁
+ */
 abstract class Cache_Redis
 {
-    protected $_expire;
+    const LOCK_SUCCESS = 'OK';
+    const NOT_EXIST = 'NX';
+    const EXPIRE_TIME = 'PX';
+    const RELEASE_SUCCESS = 1;
 
-    protected $_err_code;
-    protected $_err_info;
+    public $exTime = 20000;
+    static public $instance;
+    static public $Predis;
 
-    protected static $_cache_pool;
-    protected $_redis;
     protected $config = [
         'scheme'   => '',
         'host'     => '',
@@ -23,103 +26,56 @@ abstract class Cache_Redis
         'database' => '',
     ];
 
+
     public function __construct()
     {
-    }
 
-    /**
-     * 设定过期的秒速
-     * @param int $seconds
-     */
-    public function setExpire($seconds)
-    {
-        $this->_expire = $seconds;
     }
 
     //打开Redis连接
     protected function _openCacheConn()
     {
-        if (empty(self::$_cache_pool)) {
-            self::$_cache_pool = (new \Predis\Client([
+        if (is_null(self::$instance) || !self::$instance instanceof Client) {
+            self::$instance = (new Client([
                 'scheme' => $this->config['scheme'],
                 'host'   => $this->config['host'],
                 'port'   => $this->config['port'],
-            ]));;
+            ]));
         }
-        self::$_cache_pool->auth($this->config['auth']);
-        self::$_cache_pool->select(intval($this->config['database']));
+        self::$instance->auth($this->config['auth']);
+        self::$instance->select(intval($this->config['database']));
 
-        $this->_redis = self::$_cache_pool;
-    }
-
-
-    public function get($cache_key)
-    {
-        if ($this->_redis->exists($cache_key)) {
-            return $this->_redis->get($cache_key);
-        } else {
-            return false;
-        }
-    }
-
-    public function set($cache_key, $cache_value)
-    {
-        $this->_redis->set($cache_key, $cache_value);
-    }
-
-
-    public function sAdd($cache_key, $cache_array)
-    {
-        return $this->_redis->sAdd($cache_key, $cache_array);
-    }
-
-    public function smembers($cache_key)
-    {
-        return $this->_redis->smembers($cache_key);
-    }
-
-    public function sismember($key, $member)
-    {
-        return $this->_redis->sismember($key, $member);
-    }
-
-    public function lindex($key, $index)
-    {
-        return $this->_redis->lindex($key, $index);
-    }
-
-    public function lpop($key)
-    {
-        return $this->_redis->lpop($key);
-    }
-
-    public function llen($key)
-    {
-        return $this->_redis->llen($key);
-    }
-
-
-    public function rpush($key, $values)
-    {
-        return $this->_redis->lpop($key, $values);
-    }
-
-    public function linsert($key, $whence, $pivot, $value)
-    {
-        return $this->_redis->linsert($key, $whence, $pivot, $value);
+        return self::$instance;
     }
 
     /**
      * 尝试获取锁
-     * @param \Predis\Client $redis redis客户端
+     * @return bool                 是否获取成功
+     */
+    public function lock($key, $token)
+    {
+        return self::tryGetLock($key, $token, $this->exTime);
+    }
+
+    /**
+     * 解锁
+     * @return bool                 是否获取成功
+     */
+    public function unlock($lock_key, $token)
+    {
+        return self::releaseLock($lock_key, $token);
+    }
+
+    /**
+     * 尝试获取锁
      * @param String $key 锁
      * @param String $requestId 请求id
      * @param int $exTime 过期时间
      * @return bool                 是否获取成功
      */
-    public static function tryGetLock(\Predis\Client $redis, string $key, string $requestId, int $exTime)
+    public static function tryGetLock(string $key, string $requestId, int $exTime)
     {
-        $result = $redis->set($key, $requestId, self::EXPIRE_TIME, $exTime, self::NOT_EXIST);
+        $result = self::$instance->set($key, $requestId, self::EXPIRE_TIME, $exTime, self::NOT_EXIST);
 
         return self::LOCK_SUCCESS === (string)$result;
     }
@@ -129,7 +85,7 @@ abstract class Cache_Redis
      * @param $redis
      * @param $key
      */
-    public static function releaseLock(\Predis\Client $redis, string $key, string $requestId)
+    public static function releaseLock(string $key, string $requestId)
     {
         $lua = "
         if redis.call('get', KEYS[1]) == ARGV[1] then 
@@ -139,8 +95,8 @@ abstract class Cache_Redis
         end
         ";
 
-        $result = $redis->eval($lua, 1, $key, $requestId);
+        $result = self::$instance->eval($lua, 1, $key, $requestId);
         return self::RELEASE_SUCCESS === $result;
     }
-
 }
+
