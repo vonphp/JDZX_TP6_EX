@@ -1,4 +1,6 @@
 <?php
+
+namespace Jdzx;
 class A
 {
     public function asd()
