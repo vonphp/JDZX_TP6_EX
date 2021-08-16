@@ -14,7 +14,6 @@ abstract class Cache_Redis
     const EXPIRE_TIME = 'PX';
     const RELEASE_SUCCESS = 1;
 
-    public $exTime = 20000;
     static public $instance;
     static public $Predis;
 
@@ -52,9 +51,9 @@ abstract class Cache_Redis
      * 尝试获取锁
      * @return bool                 是否获取成功
      */
-    public function lock($key, $token)
+    public function lock($key, $token, $exTime)
     {
-        return self::tryGetLock($key, $token, $this->exTime);
+        return self::tryGetLock($key, $token, $exTime);
     }
 
     /**

@@ -11,10 +11,9 @@ use A\Redis\Cache_Redis;
  */
 class Jredis extends Cache_Redis
 {
-    public function __construct($exTime)
+    public function __construct()
     {
         $this->config = config('jredis', []);
-        $this->exTime = $exTime;
 
         //打开Redis连接
         $this->_openCacheConn();
@@ -27,5 +26,52 @@ class Jredis extends Cache_Redis
         } else {
             return false;
         }
+    }
+
+
+    public function set($key, $value, $expireResolution = null, $expireTTL = null, $flag = null)
+    {
+        return self::$instance->set($key, $value, $expireResolution, $expireTTL, $flag);
+    }
+
+
+    public function sAdd($cache_key, $cache_array)
+    {
+        return self::$instance->sAdd($cache_key, $cache_array);
+    }
+
+    public function smembers($cache_key)
+    {
+        return self::$instance->smembers($cache_key);
+    }
+
+    public function sismember($key, $member)
+    {
+        return self::$instance->sismember($key, $member);
+    }
+
+    public function lindex($key, $index)
+    {
+        return self::$instance->lindex($key, $index);
+    }
+
+    public function lpop($key)
+    {
+        return self::$instance->lpop($key);
+    }
+
+    public function llen($key)
+    {
+        return self::$instance->llen($key);
+    }
+
+    public function rpush($key, $values)
+    {
+        return self::$instance->lpop($key, $values);
+    }
+
+    public function linsert($key, $whence, $pivot, $value)
+    {
+        return self::$instance->linsert($key, $whence, $pivot, $value);
     }
 }
