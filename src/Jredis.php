@@ -1,10 +1,11 @@
 <?php
 
 namespace A;
-class A
+
+class Jredis
 {
     public function asd()
     {
-        var_dump(122);
+        var_dump(123123);
     }
 }
