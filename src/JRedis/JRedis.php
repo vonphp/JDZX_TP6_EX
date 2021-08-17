@@ -28,9 +28,9 @@ class JRedis extends Cache_Redis
         }
     }
 
-    public function set($key, $value, $expireResolution = null, $expireTTL = null, $flag = null)
+    public function set($key, $value, $expireResolution = 'EX', $expireTTL = 3600, $flag = null)
     {
-        return self::$instance->set($key, $value, $expireResolution, $expireTTL, $flag);
+        return self::$instance->set($key, $value, $expireResolution, $expireTTL);
     }
 
 

@@ -90,7 +90,7 @@ class common
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         if (!empty($error)) {
-            return ['httpCode' => $httpCode, 'output' => false];
+            return ['httpCode' => $httpCode, 'output' => $error];
         } else {
             return ['httpCode' => $httpCode, 'output' => $output];
         }
