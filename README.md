@@ -64,7 +64,7 @@ class Index extends BaseController
         var_dump($lock);
         var_dump($unlock);
         
-        // .....
+        // ApiSign .....
         $platClass  = 'ApiSign';
         $ApiSignmain = (new JMain($platClass));
         $param = [
@@ -81,9 +81,10 @@ class Index extends BaseController
         $checkParam['nonce']     = $nonce;
         $getSign = $ApiSignmain->run('checkSign', [$checkParam]);
         var_dump($getSign);
-
+        
+        // FastDfs .....
         $platClass  = 'FastDfs';
-        $ApiSignmain = (new JMain($platClass))->run('updateFile',['asdasd']);
+        $ApiSignmain = (new JMain($platClass))->run('updateFile',['asdasd', uniqid(), 'http://www.baidu.com']);
         var_dump($ApiSignmain);
     }
 }
