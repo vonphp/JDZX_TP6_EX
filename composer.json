@@ -17,12 +17,5 @@
             "A\\": "src"
         }
     },
-    "extra": {
-        "A": {
-            "config": {
-                "Jredis": "src/config.php"
-            }
-        }
-    },
     "license": "MIT"
 }

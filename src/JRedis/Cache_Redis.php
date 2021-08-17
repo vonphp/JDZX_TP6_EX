@@ -1,6 +1,6 @@
 <?php
 
-namespace A\Redis;
+namespace A\JRedis;
 
 use Predis\Client;
 
@@ -17,15 +17,6 @@ abstract class Cache_Redis
     static public $instance;
     static public $Predis;
 
-    protected $config = [
-        'scheme'   => '',
-        'host'     => '',
-        'port'     => '',
-        'auth'     => '',
-        'database' => '',
-    ];
-
-
     public function __construct()
     {
 
@@ -36,15 +27,13 @@ abstract class Cache_Redis
     {
         if (is_null(self::$instance) || !self::$instance instanceof Client) {
             self::$instance = (new Client([
-                'scheme' => $this->config['scheme'],
-                'host'   => $this->config['host'],
-                'port'   => $this->config['port'],
+                'scheme' => $this->scheme,
+                'host'   => $this->host,
+                'port'   => $this->port,
             ]));
         }
-        self::$instance->auth($this->config['auth']);
-        self::$instance->select(intval($this->config['database']));
-
-        return self::$instance;
+        self::$instance->auth($this->auth);
+        self::$instance->select(intval($this->database));
     }
 
     /**

@@ -1,22 +1,23 @@
 <?php
 
-namespace A;
-
-use A\Redis\Cache_Redis;
+namespace A\JRedis;
 
 /**
  * redis 控制类
  * Class Jredis
  * @package A
  */
-class Jredis extends Cache_Redis
+class JRedis extends Cache_Redis
 {
     public function __construct()
     {
-        $this->config = config('jredis', []);
-
         //打开Redis连接
         $this->_openCacheConn();
+    }
+
+    public function returnObj()
+    {
+        return self::$instance;
     }
 
     public function get($cache_key)
@@ -27,7 +28,6 @@ class Jredis extends Cache_Redis
             return false;
         }
     }
-
 
     public function set($key, $value, $expireResolution = null, $expireTTL = null, $flag = null)
     {
@@ -73,5 +73,16 @@ class Jredis extends Cache_Redis
     public function linsert($key, $whence, $pivot, $value)
     {
         return self::$instance->linsert($key, $whence, $pivot, $value);
+    }
+
+
+    public function __get($key)
+    {
+        return $this->$key;
+    }
+
+    public function __set($key, $value)
+    {
+        $this->$key = $value;
     }
 }
