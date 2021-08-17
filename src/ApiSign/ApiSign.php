@@ -16,18 +16,9 @@ namespace A\ApiSign;
 
 class ApiSign
 {
-    private static $instance;
 
     public function __construct()
     {
-        if (is_null(self::$instance) || !self::$instance instanceof ApiSign) {
-            self::$instance = new ApiSign();
-        }
-    }
-
-    public function returnObj(): ApiSign
-    {
-        return self::$instance;
     }
 
     /**
@@ -94,7 +85,7 @@ class ApiSign
 
     public function __get($key)
     {
-        return $this->$key;
+        return $this->$key ?? config('jdzx.ApiSign.' . $key);
     }
 
     public function __set($key, $value)

@@ -28,8 +28,8 @@ class common
             curl_setopt($ch, CURLOPT_HTTPHEADER, $otherHeaders);
             curl_setopt($ch, CURLOPT_PORT, 443);
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($param));
-            curl_setopt($ch, CURLOPT_SSLKEY, app_path('Game/Verify/pt.key'));
-            curl_setopt($ch, CURLOPT_SSLCERT, app_path('Game/Verify/pt.pem'));
+            curl_setopt($ch, CURLOPT_SSLKEY, app_path('ssl.key'));
+            curl_setopt($ch, CURLOPT_SSLCERT, app_path('ssl.pem'));
         } else if ($contentType == 4) {
             $headers[] = "Content-Type: application/xml";
             if (count($otherHeaders)) {

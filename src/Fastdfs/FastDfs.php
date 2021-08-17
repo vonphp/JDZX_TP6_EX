@@ -11,14 +11,6 @@ class FastDfs
 
     public function __construct()
     {
-        if (is_null(self::$instance) || !self::$instance instanceof FastDfs) {
-            self::$instance = new self();
-        }
-    }
-
-    public function returnObj(): FastDfs
-    {
-        return self::$instance;
     }
 
     public function updateFile($title): array
@@ -31,14 +23,13 @@ class FastDfs
             'secretKey' => $this->secretKey,
             'address'   => $this->address,
         ];
-
-        return common::request('POST', $url, $param . 6);
+        return common::request('POST', $url, $param , 6);
     }
 
 
     public function __get($key)
     {
-        return $this->$key;
+        return $this->$key ?? config('jdzx.FastDfs.' . $key);
     }
 
     public function __set($key, $value)

@@ -11,7 +11,6 @@ class JRedis extends Cache_Redis
 {
     public function __construct()
     {
-        //打开Redis连接
         $this->_openCacheConn();
     }
 
@@ -35,7 +34,7 @@ class JRedis extends Cache_Redis
     }
 
 
-    public function sAdd($cache_key, $cache_array)
+    public function sAdd($cache_key, array $cache_array)
     {
         return self::$instance->sAdd($cache_key, $cache_array);
     }
@@ -65,7 +64,7 @@ class JRedis extends Cache_Redis
         return self::$instance->llen($key);
     }
 
-    public function rpush($key, $values)
+    public function rpush($key, array $values)
     {
         return self::$instance->lpop($key, $values);
     }
@@ -78,7 +77,7 @@ class JRedis extends Cache_Redis
 
     public function __get($key)
     {
-        return $this->$key;
+        return $this->$key ?? config('jdzx.JRedis.' . $key);
     }
 
     public function __set($key, $value)
