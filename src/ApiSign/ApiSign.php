@@ -16,19 +16,19 @@ namespace A\ApiSign;
 
 class ApiSign
 {
+    private static $instance;
 
-
-    public function __get($key)
+    public function __construct()
     {
-        return $this->$key;
-    }
-    public function __set($key, $value)
-    {
-        return $this->$key = $value;
+        if (is_null(self::$instance) || !self::$instance instanceof ApiSign) {
+            self::$instance = new ApiSign();
+        }
     }
 
-    //时间误差，如果超出误差，则签名失效
-    private $timeReduce = 115;
+    public function returnObj(): ApiSign
+    {
+        return self::$instance;
+    }
 
     /**
      * 校验签名
@@ -37,7 +37,7 @@ class ApiSign
      * @return bool
      * 校验签名
      */
-    public function checkSign($param, $method = 'GET')
+    public function checkSign(array $param, $method = 'GET')
     {
         $now = time();
 
@@ -79,7 +79,7 @@ class ApiSign
      * @return string
      *
      */
-    public function getSign($param, $nonce, $timeStamp, $method = 'GET')
+    public function getSign(array $param, string $nonce, int $timeStamp, string $method = 'GET'): string
     {
         $param['timestamp'] = $timeStamp;
         $param['method']    = $method;
@@ -92,25 +92,13 @@ class ApiSign
         return strtoupper(md5($sortedParamString));
     }
 
-    public function test()
+    public function __get($key)
     {
-        $param     = [
-            'p1' => 'v1',
-            'p2' => 'v2'
-        ];
-        $timeStamp = time();
-        $nonce     = 'aaa';
-        $sign      = $this->getSign($param, $nonce, $timeStamp, 'GET');
-        dump($sign);
+        return $this->$key;
+    }
 
-        $checkParam              = [
-            'p1' => 'v1',
-            'p2' => 'v2'
-        ];
-        $checkParam['sign']      = $sign;
-        $checkParam['timestamp'] = $timeStamp;
-        $checkParam['nonce']     = $nonce;
-
-        dump($this->checkSign($checkParam, 'GET'));
+    public function __set($key, $value)
+    {
+        $this->$key = $value;
     }
 }
