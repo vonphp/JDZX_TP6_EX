@@ -37,19 +37,24 @@ abstract class Cache_Redis
     }
 
     /**
-     * 尝试获取锁
-     * @return bool                 是否获取成功
+     * 尝试获取锁(加锁)
+     * @param $key   string 键
+     * @param $token string 请求id
+     * @param $exTime int 过期时间（毫秒）
+     * @return bool 是否加锁成功
      */
-    public function lock($key, $token, $exTime)
+    public function lock(string $key, string $token, int $exTime): bool
     {
         return self::tryGetLock($key, $token, $exTime);
     }
 
     /**
      * 解锁
-     * @return bool                 是否获取成功
+     * @param string $lock_key 锁
+     * @param string $token 请求id
+     * @return bool 解锁
      */
-    public function unlock($lock_key, $token)
+    public function unlock(string $lock_key, string $token): bool
     {
         return self::releaseLock($lock_key, $token);
     }
@@ -58,10 +63,10 @@ abstract class Cache_Redis
      * 尝试获取锁
      * @param String $key 锁
      * @param String $requestId 请求id
-     * @param int $exTime 过期时间
+     * @param int $exTime 过期时间（毫秒）
      * @return bool                 是否获取成功
      */
-    public static function tryGetLock(string $key, string $requestId, int $exTime)
+    public static function tryGetLock(string $key, string $requestId, int $exTime): bool
     {
         $result = self::$instance->set($key, $requestId, self::EXPIRE_TIME, $exTime, self::NOT_EXIST);
 
@@ -73,7 +78,7 @@ abstract class Cache_Redis
      * @param $redis
      * @param $key
      */
-    public static function releaseLock(string $key, string $requestId)
+    public static function releaseLock(string $key, string $requestId): bool
     {
         $lua = "
         if redis.call('get', KEYS[1]) == ARGV[1] then 

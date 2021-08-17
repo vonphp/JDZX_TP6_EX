@@ -8,20 +8,29 @@ use A\Common\common;
 class FastDfs
 {
     private static $instance;
+    /**
+     * @var mixed
+     */
 
     public function __construct()
     {
     }
 
-    public function updateFile($title): array
+    /**
+     * @param $title        string 图片标题
+     * @param $secretKey    string 图片唯一key
+     * @param $address      string 图片地址
+     * @return array
+     */
+    public function updateFile(string $title, string $secretKey, string $address): array
     {
         $url   = $this->url;
         $param = [
             'APPID'     => $this->APPID,
             'APPKEY'    => $this->APPKEY,
             'title'     => $title,
-            'secretKey' => $this->secretKey,
-            'address'   => $this->address,
+            'secretKey' => $secretKey,
+            'address'   => $address,
         ];
         return common::request('POST', $url, $param , 6);
     }
