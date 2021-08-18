@@ -9,7 +9,10 @@
     ],
     "scripts": {
         "post-package-install": [
-            "A\\MyClass::postPackageInstall"
+            "A\\MyClass\\MyClass::addConfig"
+        ],
+        "post-package-update": [
+            "A\\MyClass\\MyClass::addConfig"
         ]
     },
     "require": {
