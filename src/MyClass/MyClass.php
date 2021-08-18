@@ -7,9 +7,9 @@ class MyClass
 {
     public static function addConfig()
     {
-        $sourcefile = '../config.php';
-        $dir        = config_path();
-        $filename = 'JDzx.php';
+        $sourcefile = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../config.php'));
+        $dir        = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../../../../config/'));
+        $filename   = 'JDzx.php';
         self::file2dir($sourcefile, $dir, $filename);
     }
 
@@ -20,12 +20,12 @@ class MyClass
      * @param $filename string 文件名字
      * @return bool
      */
-    function file2dir(string $sourcefile, string $dir, string $filename): bool
+    static function file2dir(string $sourcefile, string $dir, string $filename): bool
     {
         if (!file_exists($sourcefile)) {
             return false;
         }
         //$filename = basename($sourcefile);
-        return copy($sourcefile, $dir . '' . $filename);
+        return copy($sourcefile, $dir . '/' . $filename);
     }
 }

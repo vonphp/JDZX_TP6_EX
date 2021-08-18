@@ -8,10 +8,10 @@
         }
     ],
     "scripts": {
-        "post-package-install": [
+        "post-autoload-dump": [
             "A\\MyClass\\MyClass::addConfig"
         ],
-        "post-package-update": [
+        "post-package-install": [
             "A\\MyClass\\MyClass::addConfig"
         ]
     },
