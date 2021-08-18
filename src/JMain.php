@@ -53,7 +53,7 @@ class JMain
      */
     public function initPlatAttribute($plat)
     {
-        foreach (config('Jdzx.' . $plat) as $key => $value) {
+        foreach (config('JDzx.' . $plat) as $key => $value) {
             $this->platObj->$key = $value;
         }
     }

@@ -38,7 +38,7 @@ class FastDfs
 
     public function __get($key)
     {
-        return $this->$key ?? config('jdzx.FastDfs.' . $key);
+        return $this->$key ?? config('JDzx.FastDfs.' . $key);
     }
 
     public function __set($key, $value)

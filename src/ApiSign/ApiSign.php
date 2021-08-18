@@ -85,7 +85,7 @@ class ApiSign
 
     public function __get($key)
     {
-        return $this->$key ?? config('jdzx.ApiSign.' . $key);
+        return $this->$key ?? config('JDzx.ApiSign.' . $key);
     }
 
     public function __set($key, $value)

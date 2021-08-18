@@ -77,7 +77,7 @@ class JRedis extends Cache_Redis
 
     public function __get($key)
     {
-        return $this->$key ?? config('jdzx.JRedis.' . $key);
+        return $this->$key ?? config('JDzx.JRedis.' . $key);
     }
 
     public function __set($key, $value)
