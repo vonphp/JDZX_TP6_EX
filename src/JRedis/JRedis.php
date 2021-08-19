@@ -4,7 +4,7 @@ namespace A\JRedis;
 
 /**
  * redis 控制类
- * Class Jredis
+ * Class Redis
  * @package A
  */
 class JRedis extends Cache_Redis

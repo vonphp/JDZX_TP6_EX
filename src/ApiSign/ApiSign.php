@@ -2,6 +2,8 @@
 
 namespace A\ApiSign;
 
+use think\Exception;
+
 /**
  * Class JiaodongSign
  * @package jiaodong
@@ -27,6 +29,7 @@ class ApiSign
      * @param string method 请求方式
      * @return bool
      * 校验签名
+     * @throws Exception
      */
     public function checkSign(array $param, $method = 'GET')
     {
@@ -34,12 +37,12 @@ class ApiSign
 
         //判断是否存在必要参数
         if (!isset($param['sign']) || !isset($param['timestamp']) || !isset($param['nonce'])) {
-            return 11100;
+            throw  new Exception('Missing parameters');
         }
 
         //判断timestamp是否超时
         if (intval($param['timestamp'] + $this->timeReduce) < $now) {
-            return 11200;
+            throw  new Exception('Request timed out');
         }
 
         //将sign剔除
@@ -56,7 +59,7 @@ class ApiSign
         $thisSign          = strtoupper(md5($sortedParamString));
 
         if ($thisSign != $sign) {
-            return 11300;
+            throw  new Exception('Signature error');
         }
 
         return true;

@@ -31,7 +31,6 @@ class JMain
             $this->initPlatAttribute($plat);
         } else {
             throw  new Exception('JDzx instance error: plat namespace not exist');
-
         }
     }
 
