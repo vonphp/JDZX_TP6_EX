@@ -25,12 +25,14 @@ class JMain
         $platNameSpace = 'A\\' . $plat . '\\' . $plat;
         if (class_exists($platNameSpace)) {
             if ($this->platObj === null) {
-                $this->platClass     = new \ReflectionClass($platNameSpace);
-                $this->platObj = $this->platClass->newInstance();
+                $this->platClass = new \ReflectionClass($platNameSpace);
+                $this->platObj   = $this->platClass->newInstance();
             }
             $this->initPlatAttribute($plat);
+        } else {
+            throw  new Exception('JDzx instance error: plat namespace not exist');
+
         }
-        throw  new Exception('JDzx instance error: plat namespace not exist');
     }
 
 
@@ -40,13 +42,13 @@ class JMain
      * @param array $params
      * @throws \ReflectionException
      */
-    public function run(String $method, Array $params)
+    public function run(string $method, array $params)
     {
         $reflectionMethod = $this->platClass->getMethod($method);
         if ($reflectionMethod->isStatic()) {
-            $items = $reflectionMethod -> invokeArgs(null, $params);
+            $items = $reflectionMethod->invokeArgs(null, $params);
         } else {
-            $items = $reflectionMethod -> invokeArgs($this->platObj, $params);
+            $items = $reflectionMethod->invokeArgs($this->platObj, $params);
         }
         return $items;
     }
