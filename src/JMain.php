@@ -2,7 +2,7 @@
 
 namespace A;
 
-use A\JRedis\JRedis;
+use think\Exception;
 
 /**
  * 胶东在线入口类
@@ -16,6 +16,10 @@ class JMain
     public $platObj = null;
     public $platClass = null;
 
+    /**
+     * @throws \ReflectionException
+     * @throws Exception
+     */
     public function __construct($plat)
     {
         $platNameSpace = 'A\\' . $plat . '\\' . $plat;
@@ -26,6 +30,7 @@ class JMain
             }
             $this->initPlatAttribute($plat);
         }
+        throw  new Exception('JDzx instance error: plat namespace not exist');
     }
 
 

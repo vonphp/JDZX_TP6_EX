@@ -1,9 +1,8 @@
 <?php
 
-namespace A\MyClass;
+namespace A\JdConfig;
 
-
-class MyClass
+class JdConfig
 {
     public static function addConfig()
     {
