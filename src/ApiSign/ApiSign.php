@@ -1,6 +1,6 @@
 <?php
 
-namespace TP6\ApiSign;
+namespace JDzx\ApiSign;
 
 use think\Exception;
 

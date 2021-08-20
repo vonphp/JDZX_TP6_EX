@@ -1,6 +1,6 @@
 <?php
 
-namespace TP6\Common;
+namespace JDzx\Common;
 
 class common
 {

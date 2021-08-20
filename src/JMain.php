@@ -1,6 +1,6 @@
 <?php
 
-namespace TP6;
+namespace JDzx;
 
 use think\Exception;
 
@@ -22,7 +22,7 @@ class JMain
      */
     public function __construct($plat)
     {
-        $platNameSpace = 'TP6\\' . $plat . '\\' . $plat;
+        $platNameSpace = 'JDzx\\' . $plat . '\\' . $plat;
         if (class_exists($platNameSpace)) {
             if ($this->platObj === null) {
                 $this->platClass = new \ReflectionClass($platNameSpace);

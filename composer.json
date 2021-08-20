@@ -9,7 +9,7 @@
     ],
     "scripts": {
         "post-autoload-dump": [
-            "TP6\\JdConfig\\JdConfig::addConfig"
+            "JDzx\\JdConfig\\JdConfig::addConfig"
         ]
     },
     "require": {

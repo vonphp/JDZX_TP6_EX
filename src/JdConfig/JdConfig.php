@@ -1,6 +1,6 @@
 <?php
 
-namespace TP6\JdConfig;
+namespace JDzx\JdConfig;
 
 class JdConfig
 {
