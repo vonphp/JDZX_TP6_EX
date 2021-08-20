@@ -1,6 +1,6 @@
 <?php
 
-namespace JDzx\JRedis;
+namespace jdzx\JRedis;
 
 use Predis\Client;
 

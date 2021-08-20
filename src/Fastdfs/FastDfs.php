@@ -1,6 +1,6 @@
 <?php
 
-namespace JDzx\FastDfs;
+namespace jdzx\FastDfs;
 
 use think\Exception;
 

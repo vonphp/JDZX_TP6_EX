@@ -1,6 +1,6 @@
 <?php
 
-namespace JDzx\ApiSign;
+namespace jdzx\ApiSign;
 
 use think\Exception;
 
@@ -88,7 +88,7 @@ class ApiSign
 
     public function __get($key)
     {
-        return $this->$key ?? config('JDzx.ApiSign.' . $key);
+        return $this->$key ?? config('jdzx.ApiSign.' . $key);
     }
 
     public function __set($key, $value)

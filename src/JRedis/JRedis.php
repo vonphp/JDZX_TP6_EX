@@ -1,6 +1,6 @@
 <?php
 
-namespace JDzx\JRedis;
+namespace jdzx\JRedis;
 
 /**
  * redis 控制类
@@ -143,7 +143,7 @@ class JRedis extends Cache_Redis
 
     public function __get($key)
     {
-        return $this->$key ?? config('JDzx.JRedis.' . $key);
+        return $this->$key ?? config('jdzx.JRedis.' . $key);
     }
 
     public function __set($key, $value)

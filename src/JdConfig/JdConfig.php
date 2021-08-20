@@ -1,6 +1,6 @@
 <?php
 
-namespace JDzx\JdConfig;
+namespace jdzx\JdConfig;
 
 class JdConfig
 {
@@ -8,7 +8,7 @@ class JdConfig
     {
         $sourcefile = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../config.php'));
         $dir        = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../../../../config/'));
-        $filename   = 'JDzx.php';
+        $filename   = 'jdzx.php';
         self::file2dir($sourcefile, $dir, $filename);
     }
 

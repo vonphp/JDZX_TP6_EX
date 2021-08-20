@@ -7,18 +7,14 @@
             "email": "vonly1024@gmail.com"
         }
     ],
-    "scripts": {
-        "post-autoload-dump": [
-            "JDzx\\JdConfig\\JdConfig::addConfig"
-        ]
-    },
     "require": {
         "php": ">=7.2 || ^8.0",
+        "topthink/framework": "^6.0.0",
         "predis/predis": "^1.1"
     },
     "autoload": {
         "psr-4": {
-            "JDzx\\": "src"
+            "jdzx\\": "src"
         }
     },
     "license": "MIT"

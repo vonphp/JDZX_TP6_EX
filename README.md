@@ -14,7 +14,7 @@
 1. composer.json 中 scripts->post-autoload-dump 添加如下代码
   "scripts": {
         "post-autoload-dump": [
-            "JDzx\\JdConfig\\JdConfig::addConfig"
+            "jdzx\\JdConfig\\JdConfig::addConfig"
         ]
     }
 2. 运行composer命令
@@ -49,7 +49,7 @@ return [
 
 namespace app\controller;
 
-use JDzx\JMain;
+use jdzx\JMain;
 use app\BaseController;
 use think\facade\Queue;
 

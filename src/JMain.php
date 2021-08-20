@@ -1,6 +1,6 @@
 <?php
 
-namespace JDzx;
+namespace jdzx;
 
 use think\Exception;
 
@@ -9,7 +9,7 @@ use think\Exception;
  * @create 2021年08月17日09:36:00
  * @author fly
  * Class JMain
- * @package JDzx
+ * @package jdzx
  */
 class JMain
 {
@@ -22,7 +22,7 @@ class JMain
      */
     public function __construct($plat)
     {
-        $platNameSpace = 'JDzx\\' . $plat . '\\' . $plat;
+        $platNameSpace = 'jdzx\\' . $plat . '\\' . $plat;
         if (class_exists($platNameSpace)) {
             if ($this->platObj === null) {
                 $this->platClass = new \ReflectionClass($platNameSpace);
@@ -30,7 +30,7 @@ class JMain
             }
             $this->initPlatAttribute($plat);
         } else {
-            throw  new Exception('JDzx instance error: plat namespace not exist');
+            throw  new Exception('jdzx instance error: plat namespace not exist');
         }
     }
 
@@ -59,7 +59,7 @@ class JMain
      */
     public function initPlatAttribute($plat)
     {
-        foreach (config('JDzx.' . $plat) as $key => $value) {
+        foreach (config('jdzx.' . $plat) as $key => $value) {
             $this->platObj->$key = $value;
         }
     }
