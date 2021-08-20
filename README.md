@@ -8,6 +8,20 @@
  3. apiSign 接口验证
 
 ...
+
+### composer 安装
+```html
+1. composer.json 中 scripts->post-autoload-dump 添加如下代码
+  "scripts": {
+        "post-autoload-dump": [
+            "JDzx\\JdConfig\\JdConfig::addConfig"
+        ]
+    }
+2. 运行composer命令
+composer require jdzx/jdzx "1.5"
+
+```
+
 ### 使用手册：
 #### 1. 在config目录添加 Jdzx.php 配置文件，代码如下：
 ```phpt
