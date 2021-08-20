@@ -9,6 +9,9 @@ class JdConfig
         $sourcefile = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../config.php'));
         $dir        = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../../../../config/'));
         $filename   = 'jdzx.php';
+        if (is_file($dir.$filename)) {
+            unlink($dir.$filename);
+        }
         self::file2dir($sourcefile, $dir, $filename);
     }
 
