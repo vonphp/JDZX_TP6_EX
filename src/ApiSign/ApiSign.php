@@ -1,6 +1,6 @@
 <?php
 
-namespace A\ApiSign;
+namespace TP6\ApiSign;
 
 use think\Exception;
 

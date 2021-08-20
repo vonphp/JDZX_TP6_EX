@@ -9,7 +9,7 @@
     ],
     "scripts": {
         "post-autoload-dump": [
-            "A\\JdConfig\\JdConfig::addConfig"
+            "TP6\\JdConfig\\JdConfig::addConfig"
         ]
     },
     "require": {
@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "A\\": "src"
+            "TP6\\": "src"
         }
     },
     "license": "MIT"

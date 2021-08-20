@@ -1,6 +1,6 @@
 <?php
 
-namespace A;
+namespace TP6;
 
 use think\Exception;
 
@@ -9,7 +9,7 @@ use think\Exception;
  * @create 2021年08月17日09:36:00
  * @author fly
  * Class JMain
- * @package A
+ * @package TP6
  */
 class JMain
 {
@@ -22,7 +22,7 @@ class JMain
      */
     public function __construct($plat)
     {
-        $platNameSpace = 'A\\' . $plat . '\\' . $plat;
+        $platNameSpace = 'TP6\\' . $plat . '\\' . $plat;
         if (class_exists($platNameSpace)) {
             if ($this->platObj === null) {
                 $this->platClass = new \ReflectionClass($platNameSpace);

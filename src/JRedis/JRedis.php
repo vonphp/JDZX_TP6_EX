@@ -1,6 +1,6 @@
 <?php
 
-namespace A\JRedis;
+namespace TP6\JRedis;
 
 /**
  * redis 控制类

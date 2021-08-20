@@ -1,6 +1,6 @@
 <?php
 
-namespace A\Common;
+namespace TP6\Common;
 
 class common
 {
