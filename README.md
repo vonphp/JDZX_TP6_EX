@@ -37,7 +37,7 @@ return [
 
 namespace app\controller;
 
-use TP6\JMain;
+use JDzx\JMain;
 use app\BaseController;
 use think\facade\Queue;
 

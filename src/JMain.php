@@ -9,7 +9,7 @@ use think\Exception;
  * @create 2021年08月17日09:36:00
  * @author fly
  * Class JMain
- * @package TP6
+ * @package JDzx
  */
 class JMain
 {
