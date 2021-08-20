@@ -45,12 +45,12 @@ class FastDfs
     }
 
     /**
-     * @param $localFile
+     * @param string $localFile
      * @return false
      * 本地文件上传
      * @throws Exception
      */
-    public function upload($localFile)
+    public function upload(string $localFile)
     {
         if (!file_exists($localFile)) {
             throw  new Exception('Invalid Local File');

@@ -24,9 +24,7 @@ return [
         'timeReduce' => 115, // 时间误差，如果超出误差，签名失效
     ],
     'FastDfs' => [
-        'url'       => 'http://attatch.c.jiaodong.cn/jd_attatch_serv/public/index.php/api/upload/upload',
-        'APPID'     => '1',
-        'APPKEY'    => '1234567890',
+        'baseUrl' => 'http://uploads.c.jiaodong.cn/',     //服务器基地址
     ],
 ];
 ```
@@ -84,7 +82,7 @@ class Index extends BaseController
         
         // FastDfs .....
         $platClass  = 'FastDfs';
-        $ApiSignmain = (new JMain($platClass))->run('updateFile',['asdasd', uniqid(), 'http://www.baidu.com']);
+        $ApiSignmain = (new JMain($platClass))->run('upload',['http://www.baidu.com']);
         var_dump($ApiSignmain);
     }
 }
