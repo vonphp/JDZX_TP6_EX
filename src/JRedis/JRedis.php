@@ -24,7 +24,7 @@ class JRedis extends Cache_Redis
      * @param $cache_key
      * @return false
      */
-    public function get($cache_key): bool
+    public function get($cache_key)
     {
         if (self::$instance->exists($cache_key)) {
             return self::$instance->get($cache_key);
