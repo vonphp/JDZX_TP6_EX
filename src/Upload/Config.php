@@ -8,10 +8,6 @@ final class Config
 {
     const SDK_VER = '7.6.0';
 
-    const BLOCK_SIZE = 4194304; //4*1024*1024 分块上传块大小，该参数为接口规格，不能修改
-
-    const UP_HOST = 'http://attatch.c.jiaodong.cn/jd_attatch_serv/public/index.php/api/';
-
     // Zone 空间对应的存储区域
     public $region;
     //BOOL 是否使用https域名

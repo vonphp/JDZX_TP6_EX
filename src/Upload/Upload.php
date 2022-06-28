@@ -7,7 +7,7 @@ namespace jdzx\Upload;
 use jdzx\Upload\Tool\FormUploader;
 use jdzx\Upload\Tool\ResumeUploader;
 
-class UploadC
+class Upload
 {
     private $config;
 
@@ -49,10 +49,10 @@ class UploadC
         $checkCrc = false,
         $resumeRecordFile = null,
         $version = 'v1',
-        $partSize = Config::BLOCK_SIZE
     )
     {
-        if (!file_exists($filePath)) {
+        $partSize = $this->block_size;
+    if (!file_exists($filePath)) {
             throw new \Exception("file can not file_exists", 1);
         }
         $file = fopen($filePath, 'rb');
@@ -61,7 +61,7 @@ class UploadC
         }
         $stat   = fstat($file);
         $size   = $stat['size'];
-        if ($size <= Config::BLOCK_SIZE) {
+        if ($size <= $partSize) {
             $data = fread($file, $size);
             fclose($file);
             if ($data === false) {

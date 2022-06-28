@@ -59,7 +59,6 @@ final class ResumeUploader
         $config,
         $resumeRecordFile = null,
         $version = 'v2',
-        $partSize = config::BLOCK_SIZE
     )
     {
 
@@ -73,12 +72,12 @@ final class ResumeUploader
         $this->finishedEtags    = array("etags" => array(), "uploadId" => "", "expiredAt" => 0, "uploaded" => 0);
         $this->config           = $config;
         $this->resumeRecordFile = $resumeRecordFile ?? null;
-        $this->partSize         = $partSize ? $partSize : config::BLOCK_SIZE;
+        $this->partSize         = $this->block_size;
 
 
         $this->version = 'v1';
         $this->bucket  = 'bucket';
-        $this->host    = Config::UP_HOST;
+        $this->host    = $this->up_host;
     }
 
 
