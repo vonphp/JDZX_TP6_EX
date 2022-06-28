@@ -88,6 +88,7 @@ class Upload
             $mime,
             $resumeRecordFile
         );
+        fclose($file);
         return $up->upload(basename($filePath));
     }
 
