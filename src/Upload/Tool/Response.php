@@ -98,13 +98,12 @@ final class Response
      */
     public function __construct($code, $duration, array $headers = array(), $body = null, $error = null)
     {
-        var_dump($body);
         $this->statusCode = $code;
         $this->duration = $duration;
         $this->headers = array();
         $this->body = $body;
         $this->error = $error;
-        $this->jsonData = null;
+        $this->jsonData = json_decode($body, 1);
 
         if ($error !== null) {
             return;

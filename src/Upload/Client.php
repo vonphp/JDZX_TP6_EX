@@ -4,6 +4,10 @@
 namespace jdzx\Upload;
 
 
+use jdzx\Upload\Tool\Request;
+use jdzx\Upload\Tool\Response;
+use jdzx\Upload\Tool\Header;
+
 class Client
 {
     public static function get($url, array $headers = array())

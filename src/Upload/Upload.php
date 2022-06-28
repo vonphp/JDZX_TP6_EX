@@ -48,26 +48,28 @@ class Upload
         $mime = 'application/octet-stream',
         $checkCrc = false,
         $resumeRecordFile = null,
-        $version = 'v1',
+        $version = 'v1'
     )
     {
         $partSize = $this->block_size;
-    if (!file_exists($filePath)) {
+        if (!file_exists($filePath)) {
             throw new \Exception("file can not file_exists", 1);
         }
         $file = fopen($filePath, 'rb');
         if ($file === false) {
             throw new \Exception("file can not open", 1);
         }
-        $stat   = fstat($file);
-        $size   = $stat['size'];
+        $stat = fstat($file);
+        $size = $stat['size'];
         if ($size <= $partSize) {
             $data = fread($file, $size);
             fclose($file);
             if ($data === false) {
                 throw new \Exception("file can not read", 1);
             }
-            return FormUploader::put(
+            $fUp = new FormUploader();
+            return $fUp->put(
+                $this->up_host,
                 $upToken,
                 $key,
                 $data,
@@ -79,6 +81,7 @@ class Upload
         }
 
         $up  = new ResumeUploader(
+            $this->up_host,
             $upToken,
             $key,
             $file,

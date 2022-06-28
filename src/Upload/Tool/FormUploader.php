@@ -10,14 +10,8 @@ use jdzx\Upload\Config;
 class FormUploader
 {
 
-    static public $up_host;
-    public function __construct()
-    {
-        self::$up_host = $this->up_host;
-    }
-
     /**
-     * 上传二进制流到七牛, 内部使用
+     * 上传二进制流到, 内部使用
      *
      * @param string $upToken 上传凭证
      * @param string $key 上传文件名
@@ -35,7 +29,8 @@ class FormUploader
      *                                                  "key" => "<Key string>"
      *                                              ]
      */
-    public static function put(
+    public  function put(
+        $up_host,
         $upToken,
         $key,
         $data,
@@ -58,11 +53,11 @@ class FormUploader
             }
         }
 
-        $upHost = self::$up_host. 'v2/Storage/upLoadFMin';
+        $upHost = $up_host. 'v2/Storage/upLoadFMin';
         $response = Client::multipartPost($upToken, $upHost, $fields, 'files', $fname, $data, $mime);
         if (!$response->ok()) {
-            return array(null, new \Error($upHost, $response));
+            return array(null, new Error($upHost, $response));
         }
-        return array($response->json(), null);
+        return $response->json();
     }
 }

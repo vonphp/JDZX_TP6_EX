@@ -50,6 +50,7 @@ final class ResumeUploader
      * @link http://developer.qiniu.com/docs/v6/api/overview/up/response/vars.html#xvar
      */
     public function __construct(
+        $up_host,
         $upToken,
         $key,
         $inputStream,
@@ -77,7 +78,7 @@ final class ResumeUploader
 
         $this->version = 'v1';
         $this->bucket  = 'bucket';
-        $this->host    = $this->up_host;
+        $this->host    = $up_host;
     }
 
 
