@@ -29,7 +29,7 @@ class JRedis extends Cache_Redis
         if (self::$instance->exists($cache_key)) {
             return self::$instance->get($cache_key);
         } else {
-            return false;
+            return null;
         }
     }
 
@@ -45,6 +45,14 @@ class JRedis extends Cache_Redis
     public function set($key, $value, string $expireResolution = 'EX', int $expireTTL = 3600, $flag = null)
     {
         return self::$instance->set($key, $value, $expireResolution, $expireTTL);
+    }
+
+    public function keys($key = '*') {
+        return self::$instance->keys($key);
+    }
+
+    public function del($key) {
+        return self::$instance->del($key);
     }
 
 
@@ -117,6 +125,29 @@ class JRedis extends Cache_Redis
     }
 
     /**
+     * lrange list 中指定区间内的元素，区间范围通过偏移量 start 和 end 确定
+     * @param $key
+     * @param $start
+     * @param $end
+     * @return mixed
+     */
+    public function lrange($key, $start, $end) {
+        return self::$instance->lrange($key, $start, $end);
+    }
+
+    /**
+     *   ltrim 命令是对一个 list 进行裁剪，只获取指定区间内的元素，区间范围也由偏移量 start 和 end 确定。如果 end 值为 -1，则保留到最后一个元素。
+     * @param $key
+     * @param $start
+     * @param $end
+     * @return mixed
+     */
+    public function ltrim($key, $start, $end = -1) {
+        return self::$instance->ltrim($key, $start, $end);
+    }
+
+
+    /**
      * Redis Rpush 命令用于将一个或多个值插入到列表的尾部(最右边)。
      * @param $key
      * @param array $values
@@ -124,7 +155,7 @@ class JRedis extends Cache_Redis
      */
     public function rpush($key, array $values)
     {
-        return self::$instance->lpop($key, $values);
+        return self::$instance->rpush($key, $values);
     }
 
     /**
