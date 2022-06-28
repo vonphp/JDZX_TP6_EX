@@ -1,7 +1,7 @@
 <?php
 
 
-namespace jdzx\Jwt;
+namespace jdzx\JwtS;
 
 use Firebase\JWT\Key;
 use Firebase\JWT\JWT;
