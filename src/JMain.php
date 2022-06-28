@@ -5,7 +5,7 @@ namespace jdzx;
 use think\Exception;
 
 /**
- * 胶东在线入口类
+ * 胶东在线入口类1
  * @create 2021年08月17日09:36:00
  * @author fly
  * Class JMain
