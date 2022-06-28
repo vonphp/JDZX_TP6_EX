@@ -13,8 +13,6 @@ final class ResumeUploader
      * 断点续上传类, 该类主要实现了断点续上传中的分块上传,
      * 以及相应地创建块和创建文件过程.
      *
-     * @link http://developer.qiniu.com/docs/v6/api/reference/up/mkblk.html
-     * @link http://developer.qiniu.com/docs/v6/api/reference/up/mkfile.html
      */
     private $upToken;
     private $key;

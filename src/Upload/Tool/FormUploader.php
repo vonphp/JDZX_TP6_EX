@@ -16,7 +16,6 @@ class FormUploader
      * @param string $key 上传文件名
      * @param string $data 上传二进制流
      * @param string $params 自定义变量，规格参考
-     *                    https://developer.qiniu.com/kodo/manual/1235/vars#xvar
      * @param string $mime 上传数据的mimeType
      *
      * @param string $fname

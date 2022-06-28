@@ -26,7 +26,6 @@ class Upload
      * @param string $key 上传文件名
      * @param string $filePath 上传文件的路径
      * @param array<string, mixed> $params 定义变量，规格参考
-     *                                     http://developer.qiniu.com/docs/v6/api/overview/up/response/vars.html#xvar
      * @param boolean $mime 上传数据的mimeType
      * @param string $checkCrc 是否校验crc32
      * @param string $resumeRecordFile 断点续传文件路径 默认为null
