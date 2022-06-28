@@ -15,4 +15,5 @@ return [
         'block_size' => 4194304, //4*1024*1024 分块上传块大小，该参数为接口规格，不能修改
         'up_host'    => 'http://attatch.c.jiaodong.cn/jd_attatch_serv/public/index.php/api/',
     ],
+    'JwtS' => [],
 ];
