@@ -83,11 +83,13 @@ class Upload
             $key,
             $file,
             $size,
+            $partSize,
             $params,
             $mime,
             $resumeRecordFile
         );
         $ret = $up->upload(basename($filePath));
+        var_dump($ret);die;
         fclose($file);
         return is_array($ret) ? $ret['body'] : $ret->body();
     }

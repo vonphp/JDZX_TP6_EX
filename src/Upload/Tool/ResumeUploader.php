@@ -46,6 +46,7 @@ final class ResumeUploader
         $key,
         $inputStream,
         $size,
+        $partSize,
         $params,
         $mime,
         $resumeRecordFile = null
@@ -61,7 +62,7 @@ final class ResumeUploader
         $this->contexts         = array();
         $this->finishedEtags    = array("etags" => array(), "uploadId" => "", "expiredAt" => 0, "uploaded" => 0);
         $this->resumeRecordFile = $resumeRecordFile ?? null;
-        $this->partSize         = $this->block_size;
+        $this->partSize         = $partSize;
 
 
         $this->version = 'v1';
@@ -115,8 +116,6 @@ final class ResumeUploader
 
         while ($uploaded < $this->size) {
             $blockSize = $this->blockSize($uploaded);
-            var_dump('第一次blocsize');
-            var_dump($blockSize);
             $data = fread($this->inputStream, $blockSize);
             if ($data === false) {
                 throw new \Exception("file read failed", 1);
@@ -156,13 +155,13 @@ final class ResumeUploader
      */
     private function makeBlock($block, $blockSize)
     {
-        $url = $this->host . '/Storage/uploadF/' . $blockSize;
+        $url = $this->host . '/v2/Storage/uploadF/' . $blockSize;
         return $this->post($url, $block);
     }
 
     private function fileUrl($fname)
     {
-        $url = $this->host . '/Storage/mergeFile/fileSize/' . $this->size;
+        $url = $this->host . '/v2/Storage/mergeFile/fileSize/' . $this->size;
         $url .= '/mimeType/' . Tool::base64_urlSafeEncode($this->mime);
         if ($this->key != null) {
             $url .= '/key/' . Tool::base64_urlSafeEncode($this->key);
@@ -174,8 +173,6 @@ final class ResumeUploader
                 $url .= "/$key/$val";
             }
         }
-
-        var_dump($url);
         return $url;
     }
 
@@ -193,7 +190,7 @@ final class ResumeUploader
         if (!$response->ok()) {
             return array(null, new Error($this->currentUrl, $response));
         }
-        return $response;
+        return $response->json();
     }
 
     private function post($url, $data)
