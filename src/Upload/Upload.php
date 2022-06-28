@@ -46,9 +46,8 @@ class Upload
         $filePath,
         $params = null,
         $mime = 'application/octet-stream',
-        $checkCrc = false,
         $resumeRecordFile = null,
-        $version = 'v1'
+        $checkCrc = false
     )
     {
         $partSize = $this->block_size;
@@ -73,7 +72,6 @@ class Upload
                 $upToken,
                 $key,
                 $data,
-                $this->config,
                 $params,
                 $mime,
                 basename($filePath)
@@ -88,10 +86,7 @@ class Upload
             $size,
             $params,
             $mime,
-            $this->config,
-            $resumeRecordFile,
-            $version,
-            $partSize
+            $resumeRecordFile
         );
         $ret = $up->upload(basename($filePath));
         fclose($file);

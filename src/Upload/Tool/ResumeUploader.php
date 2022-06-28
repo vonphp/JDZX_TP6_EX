@@ -5,7 +5,6 @@ namespace jdzx\Upload\Tool;
 
 
 use jdzx\Upload\Client;
-use jdzx\Upload\Config;
 
 final class ResumeUploader
 {
@@ -24,17 +23,13 @@ final class ResumeUploader
     private $params;
     private $mime;
     private $contexts;
-    private $finishedEtags;
     private $host;
-    private $bucket;
     private $currentUrl;
-    private $config;
     private $resumeRecordFile;
-    private $version;
     private $partSize;
 
     /**
-     * 上传二进制流到七牛
+     * 上传二进制流到
      *
      * @param string $upToken 上传凭证
      * @param string $key 上传文件名
@@ -42,12 +37,10 @@ final class ResumeUploader
      * @param string $size 上传流的大小
      * @param string $params 自定义变量
      * @param string $mime 上传数据的mimeType
-     * @param Config $config
      * @param string $resumeRecordFile 断点续传的已上传的部分信息记录文件
      * @param string $version 分片上传版本 目前支持v1/v2版本 默认v1
      * @param string $partSize 分片上传v2字段 默认大小为4MB 分片大小范围为1 MB - 1 GB
      *
-     * @link http://developer.qiniu.com/docs/v6/api/overview/up/response/vars.html#xvar
      */
     public function __construct(
         $up_host,
@@ -57,9 +50,7 @@ final class ResumeUploader
         $size,
         $params,
         $mime,
-        $config,
-        $resumeRecordFile = null,
-        $version = 'v2',
+        $resumeRecordFile = null
     )
     {
 
@@ -71,7 +62,6 @@ final class ResumeUploader
         $this->mime             = $mime;
         $this->contexts         = array();
         $this->finishedEtags    = array("etags" => array(), "uploadId" => "", "expiredAt" => 0, "uploaded" => 0);
-        $this->config           = $config;
         $this->resumeRecordFile = $resumeRecordFile ?? null;
         $this->partSize         = $this->block_size;
 
@@ -143,7 +133,6 @@ final class ResumeUploader
             array_push($this->contexts, $ret['ctx']);
 
             $uploaded += $blockSize;
-            var_dump($ret);
 
             $recordData = array(
                 'contexts' => $this->contexts,
@@ -222,99 +211,5 @@ final class ResumeUploader
             return $this->size - $uploaded;
         }
         return $this->partSize;
-    }
-
-    private function makeInitReq($encodedObjectName)
-    {
-        $res                              = $this->initReq($encodedObjectName);
-        $this->finishedEtags["uploadId"]  = $res['uploadId'];
-        $this->finishedEtags["expiredAt"] = $res['expireAt'];
-    }
-
-    /**
-     * 初始化上传任务
-     */
-    private function initReq($encodedObjectName)
-    {
-        $url      = $this->host . '/buckets/' . $this->bucket . '/objects/' . $encodedObjectName . '/uploads';
-        $headers  = array(
-            'Authorization' => 'UpToken ' . $this->upToken,
-            'Content-Type'  => 'application/json'
-        );
-        $response = $this->postWithHeaders($url, null, $headers);
-        return $response->json();
-    }
-
-    /**
-     * 分块上传v2
-     */
-    private function uploadPart($block, $partNumber, $uploadId, $encodedObjectName, $md5)
-    {
-        var_dump($block);
-        $headers  = array(
-            'Authorization' => 'UpToken ' . $this->upToken,
-            'Content-Type'  => 'application/octet-stream',
-            'Content-MD5'   => $md5
-        );
-        $url      = $this->host . '/buckets/' . $this->bucket . '/objects/' . $encodedObjectName .
-            '/uploads/' . $uploadId . '/' . $partNumber;
-        $response = $this->put($url, $block, $headers);
-        return $response;
-    }
-
-    private function completeParts($fname, $uploadId, $encodedObjectName)
-    {
-        $headers     = array(
-            'Authorization' => 'UpToken ' . $this->upToken,
-            'Content-Type'  => 'application/json'
-        );
-        $etags       = $this->finishedEtags['etags'];
-        $sortedEtags = Tool::arraySort($etags, 'partNumber');
-        $metadata    = array();
-        $customVars  = array();
-        if ($this->params) {
-            foreach ($this->params as $k => $v) {
-                if (strpos($k, 'x:') === 0) {
-                    $customVars[$k] = $v;
-                } elseif (strpos($k, 'x-qn-meta-') === 0) {
-                    $metadata[$k] = $v;
-                }
-            }
-        }
-        if (empty($metadata)) {
-            $metadata = null;
-        }
-        if (empty($customVars)) {
-            $customVars = null;
-        }
-        $body     = array(
-            'fname'      => $fname,
-            'mimeType'   => $this->mime,
-            'metadata'   => $metadata,
-            'customVars' => $customVars,
-            'parts'      => $sortedEtags
-        );
-        $jsonBody = json_encode($body);
-        $url      = $this->host . '/buckets/' . $this->bucket . '/objects/' . $encodedObjectName . '/uploads/' . $uploadId;
-        $response = $this->postWithHeaders($url, $jsonBody, $headers);
-        if ($response->needRetry()) {
-            $response = $this->postWithHeaders($url, $jsonBody, $headers);
-        }
-        if (!$response->ok()) {
-            return array(null, new Error($this->currentUrl, $response));
-        }
-        return array($response->json(), null);
-    }
-
-    private function put($url, $data, $headers)
-    {
-        $this->currentUrl = $url;
-        return Client::put($url, $data, $headers);
-    }
-
-    private function postWithHeaders($url, $data, $headers)
-    {
-        $this->currentUrl = $url;
-        return Client::post($url, $data, $headers);
     }
 }

@@ -22,11 +22,10 @@ class Tool
 
     /**
      * 对提供的数据进行urlsafe的base64编码。
-     *
+     * 将字符串中的加号+换成中划线-，并且将斜杠/换成下划线_
      * @param string $data 待编码的数据，一般为字符串
      *
      * @return string 编码后的字符串
-     * @link http://developer.qiniu.com/docs/v6/api/overview/appendix.html#urlsafe-base64
      */
     static function base64_urlSafeEncode($data)
     {
