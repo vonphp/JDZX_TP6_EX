@@ -4,6 +4,11 @@
 namespace jdzx\Jwt;
 
 use Firebase\JWT\Key;
+use Firebase\JWT\JWT;
+use Firebase\JWT\SignatureInvalidException;
+use Firebase\JWT\BeforeValidException;
+use Firebase\JWT\ExpiredException;
+
 
 /**
  * Class Jwt
@@ -11,7 +16,7 @@ use Firebase\JWT\Key;
  * @author: Fly
  * @describe: 单例 一次请求中所有出现jwt的地方都是一个用户
  */
-class Jwt
+class JwtS
 {
     // jwt token
     private $token;
@@ -43,11 +48,11 @@ class Jwt
     {
         $token       = array(
             "iat"  => time(),
-            "nbf"  => time() + env('jwt.nbf'),
-            "exp"  => time() + env('jwt.exp_time'), //token 过期时间
+            "nbf"  => time() + env('jwt.nbf', 0),
+            "exp"  => time() + env('jwt.exp_time', 7200), //token 过期时间
             'data' => $data//可以用户ID，可以自定义
         ); //Payload
-        $this->token = \Firebase\JWT\JWT::encode($token, $key, env('jwt.alg', 'HS256'), $this->kid); //此处行进加密算法生成jwt
+        $this->token = JWT::encode($token, $key, env('jwt.alg', 'HS256'), $this->kid); //此处行进加密算法生成jwt
         return $this->token;
     }
 
@@ -69,11 +74,11 @@ class Jwt
             $decoded = JWT::decode($decodeToken, new Key($key, 'HS256')); //HS256方式，这里要和签发的时候对应
             return $decoded->data;
 
-        } catch (\Firebase\JWT\SignatureInvalidException $e) {  //签名不正确
+        } catch (SignatureInvalidException $e) {  //签名不正确
             return '签名不正确';
-        } catch (\Firebase\JWT\BeforeValidException $e) {  // 签名在某个时间点之后才能用
+        } catch (BeforeValidException $e) {  // 签名在某个时间点之后才能用
             return '签名在某个时间点之后才能用';
-        } catch (\Firebase\JWT\ExpiredException $e) {  // token过期
+        } catch (ExpiredException $e) {  // token过期
             return 'token过期';
         } catch (Exception $e) {  //其他错误
             return '其他错误';
