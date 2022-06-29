@@ -23,7 +23,6 @@ class Upload
      * 上传文件到七牛
      *
      * @param string $upToken 上传凭证
-     * @param string $key 上传文件名
      * @param string $filePath 上传文件的路径
      * @param array<string, mixed> $params 定义变量，规格参考
      * @param boolean $mime 上传数据的mimeType
