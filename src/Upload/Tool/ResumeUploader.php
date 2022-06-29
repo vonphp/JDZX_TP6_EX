@@ -123,6 +123,9 @@ final class ResumeUploader
             if ($response->ok() && $response->json() != null) {
                 $ret = $response->json();
             }
+            if ($ret['code'] == 0) {
+                return $ret;
+            }
             if ($crc != $ret['crc32']) {
                 throw new \Exception("file err crc32", 1);
             }

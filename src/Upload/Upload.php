@@ -86,7 +86,6 @@ class Upload
         $upResponse = $up->upload(basename($filePath));
         fclose($file);
         return $upResponse;
-
     }
 
 }
