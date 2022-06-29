@@ -41,7 +41,6 @@ class Upload
      */
     public function putFile(
         $upToken,
-        $key,
         $filePath,
         $params = null,
         $mime = 'application/octet-stream',
@@ -69,7 +68,6 @@ class Upload
             return $fUp->put(
                 $this->up_host,
                 $upToken,
-                $key,
                 $data,
                 $params,
                 $mime,
@@ -80,7 +78,6 @@ class Upload
         $up  = new ResumeUploader(
             $this->up_host,
             $upToken,
-            $key,
             $file,
             $size,
             $partSize,

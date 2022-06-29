@@ -15,7 +15,6 @@ final class ResumeUploader
      *
      */
     private $upToken;
-    private $key;
     private $inputStream;
     private $size;
     private $params;
@@ -30,7 +29,6 @@ final class ResumeUploader
      * 上传二进制流到
      *
      * @param string $upToken 上传凭证
-     * @param string $key 上传文件名
      * @param string $inputStream 上传二进制流
      * @param string $size 上传流的大小
      * @param string $params 自定义变量
@@ -43,7 +41,6 @@ final class ResumeUploader
     public function __construct(
         $up_host,
         $upToken,
-        $key,
         $inputStream,
         $size,
         $partSize,
@@ -54,7 +51,6 @@ final class ResumeUploader
     {
 
         $this->upToken          = $upToken;
-        $this->key              = $key;
         $this->inputStream      = $inputStream;
         $this->size             = $size;
         $this->params           = $params;
@@ -163,9 +159,7 @@ final class ResumeUploader
     {
         $url = $this->host . '/v2/Storage/mergeFile/fileSize/' . $this->size;
         $url .= '/mimeType/' . Tool::base64_urlSafeEncode($this->mime);
-        if ($this->key != null) {
-            $url .= '/key/' . Tool::base64_urlSafeEncode($this->key);
-        }
+
         $url .= '/fname/' . Tool::base64_urlSafeEncode($fname);
         if (!empty($this->params)) {
             foreach ($this->params as $key => $value) {
