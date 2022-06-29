@@ -59,7 +59,6 @@ class Upload
         $size = $stat['size'];
         if ($size <= $partSize) {
             $data = fread($file, $size);
-            fclose($file);
             if ($data === false) {
                 throw new \Exception("file can not read", 1);
             }
@@ -84,8 +83,10 @@ class Upload
             $mime,
             $resumeRecordFile
         );
+        $upResponse = $up->upload(basename($filePath));
         fclose($file);
-        return $up->upload(basename($filePath));
+        return $upResponse;
+
     }
 
 }

@@ -123,6 +123,9 @@ final class ResumeUploader
             if ($response->ok() && $response->json() != null) {
                 $ret = $response->json();
             }
+            if ($crc != $ret['crc32']) {
+                throw new \Exception("file err crc32", 1);
+            }
             array_push($this->contexts, $ret['ctx']);
 
             $uploaded += $blockSize;
